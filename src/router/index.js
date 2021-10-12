@@ -55,7 +55,6 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-
   {
     path: '/system',
     component: Layout,
@@ -78,7 +77,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/acticle',
     component: Layout,
@@ -98,6 +96,22 @@ export const constantRoutes = [
         name: 'offLineActicleList',
         component: () => import('@/views/acticle/offLineActicleList'),
         meta: { title: '下架文章', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/dictionaries',
+    component: Layout,
+    //总是显示可以下拉，防单个子列表他不显示
+    alwaysShow: true,
+    name: 'dictionaries',
+    meta: { title: '字典管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: '/sysDictList',
+        name: 'sysDictList',
+        component: () => import('@/views/dictionaries/sysDictList'),
+        meta: { title: '字典', icon: 'table' }
       }
     ]
   },
