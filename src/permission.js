@@ -26,15 +26,30 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
+      // const hasGetUserInfo = store.getters.name
+      // determine whether the user has obtained his permission roles through getInfo
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0// 这里指的是src/store/getters.js的roles
+      console.log(hasRoles)
+      // 判断是否已经有roles了
+
+      if (hasRoles) {
         next()
       } else {
         try {
-          // get user info
-          await store.dispatch('user/getInfo')
-
-          next()
+          // 获取roles
+          const { roles } = await store.dispatch('user/getInfo')// 第一步
+          // generate accessible routes map based on roles
+          // 获取通过权限验证的路由
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)// 第二步
+          // 更新加载路由
+          router.options.routes = store.getters.permission_routes// 第三步
+          // dynamically add accessible routes
+          router.addRoutes(accessRoutes)
+          console.log(store)
+          // hack method to ensure that addRoutes is complete
+          // set the replace: true, so the navigation will not leave a history record
+          next({ ...to, replace: true })
+          // next()
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')

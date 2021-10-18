@@ -56,28 +56,6 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/system',
-    component: Layout,
-    // 总是显示可以下拉，防单个子列表他不显示
-    alwaysShow: true,
-    name: 'system',
-    meta: { title: '系统管理', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: '/sysUserList',
-        name: 'sysUserList',
-        component: () => import('@/views/system/sysUserList'),
-        meta: { title: '用户', icon: 'table' }
-      },
-      {
-        path: '/adminList',
-        name: 'adminList',
-        component: () => import('@/views/system/adminList'),
-        meta: { title: '管理员', icon: 'tree' }
-      }
-    ]
-  },
-  {
     path: '/acticle',
     component: Layout,
     // 总是显示可以下拉，防单个子列表他不显示
@@ -99,19 +77,56 @@ export const constantRoutes = [
       }
     ]
   },
+
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+export const asyncRoutes = [
   {
     path: '/dictionaries',
     component: Layout,
     // 总是显示可以下拉，防单个子列表他不显示
     alwaysShow: true,
     name: 'dictionaries',
-    meta: { title: '字典管理', icon: 'el-icon-s-help' },
+    meta: {
+      title: '字典管理',
+      icon: 'el-icon-s-help',
+      roles: [20]
+    },
     children: [
       {
         path: '/sysDictList',
         name: 'sysDictList',
         component: () => import('@/views/dictionaries/sysDictList'),
         meta: { title: '字典', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/system',
+    component: Layout,
+    // 总是显示可以下拉，防单个子列表他不显示
+    alwaysShow: true,
+    name: 'system',
+    meta: {
+      title: '系统管理',
+      icon: 'el-icon-s-help',
+      // you can set roles in root nav
+      roles: [20, 21]
+    },
+    children: [
+      {
+        path: '/sysUserList',
+        name: 'sysUserList',
+        component: () => import('@/views/system/sysUserList'),
+        meta: { title: '用户', icon: 'table' }
+      },
+      {
+        path: '/adminList',
+        name: 'adminList',
+        component: () => import('@/views/system/adminList'),
+        meta: { title: '管理员', icon: 'tree', roles: [20] }
       }
     ]
   },
