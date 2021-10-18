@@ -50,7 +50,7 @@ export const constantRoutes = [
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      //路由懒加载
+      // 路由懒加载
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
@@ -58,7 +58,7 @@ export const constantRoutes = [
   {
     path: '/system',
     component: Layout,
-    //总是显示可以下拉，防单个子列表他不显示
+    // 总是显示可以下拉，防单个子列表他不显示
     alwaysShow: true,
     name: 'system',
     meta: { title: '系统管理', icon: 'el-icon-s-help' },
@@ -80,7 +80,7 @@ export const constantRoutes = [
   {
     path: '/acticle',
     component: Layout,
-    //总是显示可以下拉，防单个子列表他不显示
+    // 总是显示可以下拉，防单个子列表他不显示
     alwaysShow: true,
     name: 'acticle',
     meta: { title: '文章管理', icon: 'el-icon-s-help' },
@@ -102,7 +102,7 @@ export const constantRoutes = [
   {
     path: '/dictionaries',
     component: Layout,
-    //总是显示可以下拉，防单个子列表他不显示
+    // 总是显示可以下拉，防单个子列表他不显示
     alwaysShow: true,
     name: 'dictionaries',
     meta: { title: '字典管理', icon: 'el-icon-s-help' },

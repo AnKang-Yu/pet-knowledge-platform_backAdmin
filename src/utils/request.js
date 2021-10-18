@@ -1,8 +1,8 @@
 import axios from 'axios'
+// eslint-disable-next-line no-unused-vars
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-
 
 // create an axios instance
 const service = axios.create({
@@ -50,7 +50,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 200, it is judged as an error.
-    //自定义默认成功是200
+    // 自定义默认成功是200
     if (res.code !== 200) {
       Message({
         message: res.msg || 'Error',
@@ -86,7 +86,6 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
 
 export default service
 

@@ -50,7 +50,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 200, it is judged as an error.
-    //自定义默认成功是200
+    // 自定义默认成功是200
     if (res.code !== 200) {
       Message({
         message: res.msg || '服务器出错！',
@@ -100,13 +100,13 @@ service.interceptors.response.use(
   }
 )
 
- //请求方法
+// 请求方法
 const http = {
 //   getWithObject(url,object,params) {
-//     //console.log(encodeURIComponent(JSON.stringify(params))) 
+//     //console.log(encodeURIComponent(JSON.stringify(params)))
 //     //url =  encodeURIComponent(JSON.stringify(params))
 //     console.log(JSON.stringify(object))
-//     url = url +  encodeURI(JSON.stringify(object)) 
+//     url = url +  encodeURI(JSON.stringify(object))
 //     console.log(url)
 //     return service.get(url, {
 //         params: params,
@@ -114,38 +114,37 @@ const http = {
 //           return qs.stringify(params)
 //         }
 //     })
-     
-   
-//         // return service.get(url, {
-//         //     params: params,
-//         //     paramsSerializer: (params) => {
-//         //     return encodeURIComponent(JSON.stringify(params))
-//         //     }
-//         // })
-//     },
-  post(url,params) {
-    return service.post(url, params,{
+
+  //         // return service.get(url, {
+  //         //     params: params,
+  //         //     paramsSerializer: (params) => {
+  //         //     return encodeURIComponent(JSON.stringify(params))
+  //         //     }
+  //         // })
+  //     },
+  post(url, params) {
+    return service.post(url, params, {
       transformRequest: [(params) => {
         return JSON.stringify(params)
       }],
       headers: {
-      'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       }
     })
   },
-  put(url,params) {
-    return service.put(url, params,{
+  put(url, params) {
+    return service.put(url, params, {
       transformRequest: [(params) => {
         return JSON.stringify(params)
       }],
       headers: {
-      'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       }
     })
   },
-  //parm => {id:10}
+  // parm => {id:10}
   // http://localhost:9876/user?id=10
-  get(url,params) {
+  get(url, params) {
     return service.get(url, {
       params: params,
       paramsSerializer: (params) => {
@@ -153,24 +152,25 @@ const http = {
       }
     })
   },
-  //parm => {id:10}
+  // parm => {id:10}
   // http://localhost:9876/api/user/10
   getRestApi(url, params) {
     let _params
     if (Object.is(params, undefined || null)) {
-          _params =''
+      _params = ''
     } else {
-          _params ='/'
-          for (const key in params) {
-              console.log(key)
-              console.log(params[key])
-              // eslint-disable-next -1ine no-prototype-builtins
-              if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
-                  _params += `${params[key]}/`
-              }
-            }
-        //去掉参数最后一位?
-        _params = _params.substr(0, _params.length-1)
+      _params = '/'
+      for (const key in params) {
+        console.log(key)
+        console.log(params[key])
+        // eslint-disable-next -1ine no-prototype-builtins
+        // eslint-disable-next-line no-prototype-builtins
+        if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
+          _params += `${params[key]}/`
+        }
+      }
+      // 去掉参数最后一位?
+      _params = _params.substr(0, _params.length - 1)
     }
     console.log(_params)
     if (_params) {
@@ -179,44 +179,45 @@ const http = {
       return service.get(url)
     }
   },
-  //parm => {id:10}
+  // parm => {id:10}
   // http://localhost:9876/api/user/10
   delete(url, params) {
     let _params
     if (Object.is(params, undefined || null)) {
-          _params =''
+      _params = ''
     } else {
-          _params ='/'
-          for (const key in params) {
-              // console.log(key)
-              // console.log(params[key])
-              // eslint-disable-next -1ine no-prototype-builtins
-              if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
-                  _params += `${params[key]}/`
-              }
-            }
-        //去掉参数最后一位?
-        _params = _params.substr(0, _params.length-1)
+      _params = '/'
+      for (const key in params) {
+        // console.log(key)
+        // console.log(params[key])
+        // eslint-disable-next -1ine no-prototype-builtins
+        // eslint-disable-next-line no-prototype-builtins
+        if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
+          _params += `${params[key]}/`
+        }
+      }
+      // 去掉参数最后一位?
+      _params = _params.substr(0, _params.length - 1)
     }
     if (_params) {
-        return service.delete(`${url}${_params}`).catch(err => {
-          //message.error(err.msg)
-          return Promise.reject(err)
-        })
+      return service.delete(`${url}${_params}`).catch(err => {
+        // message.error(err.msg)
+        return Promise.reject(err)
+      })
     } else {
-        return service.delete(url).catch(err => {
-          //message.error(err.msg)
-          return Promise.reject(err)
+      return service.delete(url).catch(err => {
+        // message.error(err.msg)
+        return Promise.reject(err)
       })
     }
   },
-  upload(url,params) {
-    return service.post(url, params,{
+  upload(url, params) {
+    return service.post(url, params, {
       headers: {
-      'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data'
       }
     })
-  }    
+  }
 }
 export default http
 

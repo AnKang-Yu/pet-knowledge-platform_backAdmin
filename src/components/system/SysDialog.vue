@@ -1,68 +1,69 @@
+/* eslint-disable indent */
 <template>
-  <el-dialog 
-      top='1vh'
-      :title="title"
-      :visible.sync="visible"
-      :width="width+'px'"
-      :before-close="onClose"
-      >
-        <!-- 对话框主体 -->
-        <div class="container" :style="{height: height+'px'}">
-            <slot name="content"></slot>
-        </div>
-      <span slot="footer">
-          <el-button type="primary" @click="onConfirm">确认</el-button>
-          <el-button type="danger" @click=" onClose">取消</el-button>
-      </span>
+  <el-dialog
+    top="1vh"
+    :title="title"
+    :visible.sync="visible"
+    :width="width+'px'"
+    :before-close="onClose"
+  >
+    <!-- 对话框主体 -->
+    <div class="container" :style="{height: height+'px'}">
+      <slot name="content" />
+    </div>
+    <span slot="footer">
+      <el-button type="primary" @click="onConfirm">确认</el-button>
+      <el-button type="danger" @click=" onClose">取消</el-button>
+    </span>
   </el-dialog>
-  
 </template>
 
 <script>
 export default {
   name: '',
-  //接收父组件参数
-  props:{
-      //Dialog 的标题
-      title:{
-          type: String,
-          default: "标题"
-      },
-      //是否显示 Dialog
-      visible:{
-           type: Boolean,
-           default: false
-      },
-      //Dialog 的宽度
-      width:{
-           type: Number,
-           default: 600
-      },
-      height:{
-           type: Number,
-           default: 400
-      }
+  // 接收父组件参数
+  props: {
+    // Dialog 的标题
+    title: {
+      type: String,
+      default: '标题'
+    },
+    // 是否显示 Dialog
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    // Dialog 的宽度
+    width: {
+      type: Number,
+      default: 600
+    },
+    height: {
+      type: Number,
+      default: 400
+    }
   },
-  data () {
+  data() {
     return {}
   },
+  created() {
+  },
+  mounted() {
+  },
   methods: {
-      //取消事件
-      onClose(){
-          //触发父组件的取消事件
-          this.$emit("onClose")
-      },
-      onConfirm(){
-           //触发父组件的确认事件
-          this.$emit("onConfirm")
-      }
-  },
-  created () {
-  },
-  mounted () {
-  },
+    // 取消事件
+    onClose() {
+      // 触发父组件的取消事件
+      // eslint-disable-next-line indent
+          this.$emit('onClose')
+    },
+    onConfirm() {
+      // 触发父组件的确认事件
+      this.$emit('onConfirm')
+    }
+  }
 }
-</script> 
+</script>
 
 <style lang="scss" scoped>
     //自定义弹框样式

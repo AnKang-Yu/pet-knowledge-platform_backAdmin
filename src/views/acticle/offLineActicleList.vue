@@ -1,22 +1,22 @@
 <template>
-    <div>
-        下架文章 
-    </div>
+  <div>
+    下架文章
+  </div>
 </template>
 
 <script>
 export default {
   name: '',
-  data () {
+  data() {
     return {}
   },
-  methods: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
+  methods: {}
 }
-</script> 
+</script>
 
 <style lang='scss' scoped>
 

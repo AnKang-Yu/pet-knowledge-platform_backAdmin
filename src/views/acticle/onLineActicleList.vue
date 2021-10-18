@@ -1,22 +1,22 @@
 <template>
-    <div>
-        上线文章列表
-    </div>
+  <div>
+    上线文章列表
+  </div>
 </template>
 
 <script>
 export default {
   name: '',
-  data () {
+  data() {
     return {}
   },
-  methods: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
+  methods: {}
 }
-</script> 
+</script>
 
 <style lang='scss' scoped>
 

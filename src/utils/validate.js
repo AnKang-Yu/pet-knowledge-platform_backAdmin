@@ -19,6 +19,3 @@ export function validUsername(str) {
   return valid_map.indexOf(str.trim()) >= 0
 }
 
-
-
-
