@@ -1,12 +1,12 @@
 <template>
-  <div>
-    上线文章列表
-  </div>
+  <article-detail />
 </template>
 
 <script>
+import ArticleDetail from './articleDetail'
 export default {
-  name: '',
+  name: 'ArticleModel',
+  components: { ArticleDetail },
   data() {
     return {}
   },

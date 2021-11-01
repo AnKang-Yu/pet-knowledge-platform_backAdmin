@@ -115,3 +115,11 @@ export function param2Obj(url) {
   })
   return obj
 }
+/**
+ * 获取随机el-tag标签样式
+ * @returns {string}
+ */
+export function randomTagType() {
+  const tagType = ['', 'info', 'success', 'warning', 'danger']
+  return tagType[Math.floor(Math.random() * tagType.length)]
+}

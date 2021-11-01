@@ -211,6 +211,16 @@ const http = {
       })
     }
   },
+  // deleteByObject(url, params) {
+  //   return service.deleteByObject(url, params, {
+  //     transformRequest: [(params) => {
+  //       return JSON.stringify(params)
+  //     }],
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  // },
   upload(url, params) {
     return service.post(url, params, {
       headers: {

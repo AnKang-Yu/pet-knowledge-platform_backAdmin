@@ -64,17 +64,23 @@ export const constantRoutes = [
     meta: { title: '文章管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: '/onLineActicleList',
-        name: 'onLineActicleList',
-        component: () => import('@/views/acticle/onLineActicleList'),
-        meta: { title: '上线文章列表', icon: 'table' }
+        path: '/createActicle',
+        name: 'ArticleModel',
+        component: () => import('@/views/acticle/createActicle'),
+        meta: { title: '新建文章', icon: 'table' }
       },
       {
-        path: '/offLineActicleList',
-        name: 'offLineActicleList',
-        component: () => import('@/views/acticle/offLineActicleList'),
-        meta: { title: '下架文章', icon: 'table' }
+        path: '/acticleList',
+        name: 'acticleList',
+        component: () => import('@/views/acticle/acticleList'),
+        meta: { title: '文章列表', icon: 'table' }
       }
+      // {
+      //   path: '/offLineActicleList',
+      //   name: 'offLineActicleList',
+      //   component: () => import('@/views/acticle/offlineActicleList'),
+      //   meta: { title: '下架文章', icon: 'table' }
+      // }
     ]
   },
 

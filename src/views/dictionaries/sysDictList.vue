@@ -79,7 +79,7 @@
 
       </div>
     </sys-dialog>
-    <!-- 管理员列表elt -->
+    <!-- 字典列表elt -->
     <el-table :data="tableList" :height="tableHeight" empty-text="无数据" border stripe>
       <el-table-column prop="dictId" label="字典ID" width="70px" align="center" />
       <el-table-column prop="dictCode" label="字典码" min-width="100px" align="center" />

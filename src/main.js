@@ -28,6 +28,11 @@ Vue.prototype.$objCoppy = objCoppy
 // 自定义验证规则
 import formValidation from '@/utils/formToValidation'
 Vue.prototype.formValidation = formValidation
+// 引入mavonEditor组件
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// use
+Vue.use(mavonEditor)
 
 /**
  * If you don't want to use mock-server
