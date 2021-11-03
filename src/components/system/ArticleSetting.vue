@@ -7,29 +7,38 @@
       <!-- <el-form-item label="博客路径：" prop="url">
         <el-input v-model="articleData.url" placeholder="请输入文章访问路径，默认为文章标题" />
       </el-form-item> -->
-      <el-form-item label="允许评论：" prop="allowComment">
-        <el-radio-group v-model="articleData.allowComment">
-          <el-radio label="ALLOWED_AUDITING">允许 | 需要审核</el-radio>
-          <el-radio label="ALLOWED_PASSAUTO">允许 | 无需审核</el-radio>
-          <el-radio label="UNALLOWED">不允许</el-radio>
+      <el-form-item label="允许评论：" prop="articleAllowComment">
+        <el-radio-group v-model="articleData.articleAllowComment">
+          <el-radio :label="1">允许 </el-radio>
+          <el-radio :label="0">不允许</el-radio>
         </el-radio-group>
       </el-form-item>
       <!-- <el-form-item label="置顶数值：" prop="topRank">
         <el-input-number v-model="articleData.topRank" controls-position="right" style="width: 100%" />
         <p class="input-tips">* 值越大越靠前</p>
       </el-form-item> -->
-      <el-form-item label="博客分类：" prop="categoryId">
-        <el-select v-model="articleData.category.id" placeholder="请选择博客分类" filterable>
+      <el-form-item label="文章分类：" prop="articleCategoryid">
+        <el-select v-model="articleData.articleCategoryid" placeholder="请选择博客分类" filterable>
           <el-option
-            v-for="category in usedCategoryList"
-            :key="category.id"
-            :value="category.id"
-            :label="category.name"
+            v-for="category in articleCategoryList"
+            :key="category.dict_id"
+            :value="category.dict_id"
+            :label="category.dict_value"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="博客标签：" prop="tags">
-        <el-select
+      <el-form-item label="文章标签：" prop="articleTags">
+        <el-cascader
+          v-model="articleData.articleTags"
+          placeholder="请选择"
+          :options="tagList"
+          :props="cascaderProps"
+          filterable
+          :clearable="true"
+          :show-all-levels="false"
+          size="mini"
+        />
+        <!-- <el-select
           v-model="selectedTagList"
           multiple
           filterable
@@ -39,15 +48,15 @@
         >
           <el-option
             v-for="tag in tagList"
-            :key="tag.id"
-            :label="tag.name"
-            :value="tag.id"
+            :key="tag.dict_id"
+            :label="tag.dict_value"
+            :value="tag.dict_id"
           />
-        </el-select>
-        <p class="input-tips">* 可以选择已有标签或输入新标签</p>
+        </el-select> -->
+        <p class="input-tips">* 选择已有标签</p>
       </el-form-item>
-      <el-form-item label="博客摘要：" prop="articleSummary">
-        <el-input v-model="articleData.articleSummary" :rows="3" type="textarea" placeholder="不填写会自动生成" />
+      <el-form-item label="文章摘要：" prop="articleSummary">
+        <el-input v-model="articleData.articleSummary" :rows="3" type="textarea" placeholder="选填项目" />
       </el-form-item>
       <el-form-item label="博客封面：" prop="articleThumbnail">
         <div @click="selectAttachment">
@@ -70,76 +79,113 @@
 // import { listAllCategory } from '@/api/category'
 // import { listAllTags } from '@/api/tag'
 
-import { findAllCategoryListApi, findAllTagsListApi } from '@/api/article'
+import { findAllArticleCategoryListApi, findAllTagsListApi } from '@/api/article'
 
 export default {
   name: 'SettingDrawer',
   components: {
     'v-image': () => import('@/components/system/SimpleImage')
   },
+  // eslint-disable-next-line vue/require-prop-types
+  props: {
+    articleData: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
-      drawer: false,
-      articleData: {
-        articleFormatContent: '',
-        articleOriginalContent: '',
-        articleTitle: '',
-        url: '',
-        articleSummary: '',
-        articleThumbnail: '',
-        category: { id: null, name: '' },
-        tags: [],
-        allowComment: 'ALLOWED_AUDITING'
-      },
-      usedCategoryList: [],
+      // 级联选择器
       tagList: [],
-      selectedTagList: []
+      // selectedTagList: [],
+      cascaderProps: {
+        multiple: true,
+        checkStrictly: true,
+        value: 'dictId',
+        label: 'dictValue',
+        children: 'list'
+      },
+      // 抽屉
+      drawer: false,
+      // articleData: {
+      //   articleFormatContent: '',
+      //   articleOriginalContent: '',
+      //   articleTitle: '',
+      //   url: '',
+      //   articleSummary: '',
+      //   articleThumbnail: '',
+      //   articleCategoryid: '',
+      //   articleTags: [],
+      //   articleAllowComment: ''
+      // },
+      articleCategoryList: []
+    }
+  },
+  watch: {
+    articleData(newVal, we) {
+      console.log('xxx')
     }
   },
   created() {
-    // this.findAllCategoryList()
-    // this.findAllTagsList()
+    this.findAllArticleCategoryList()
+    this.findAllTagsList()
   },
   methods: {
-    setData(data) {
-      this.articleData = JSON.parse(JSON.stringify(data))
-      if (!this.articleData.category) {
-        this.articleData.category = { id: null, name: '' }
-      }
-      this.selectedTagList = []
-      for (const tag of this.articleData.tags) {
-        this.selectedTagList.push(tag.id)
-      }
-    },
-    getData() {
-      this.articleData.tags = []
-      for (const tagId of this.selectedTagList) {
-        let isFound = false
-        for (const tag of this.tagList) {
-          if (tagId === tag.id) {
-            isFound = true
-            this.articleData.tags.push({ id: tagId })
-            break
-          }
-        }
-        if (!isFound) {
-          this.articleData.tags.push({ name: tagId })
-        }
-      }
-      return this.articleData
-    },
+    // setData(data) {
+    //   // JSON.parse(JSON.stringify(data))
+    //   this.articleData = data
+    //   console.log('setData')
+    //   console.log(this.articleData.articleTags)
+    //   this.selectedTagList = this.articleData.articleTags
+    //   console.log(this.selectedTagList)
+    //   // if (!this.articleData.category) {
+    //   //   this.articleData.category = { id: null, name: '' }
+    //   // }
+    //   // this.selectedTagList = []
+    //   // for (const tag of this.articleData.articleTags) {
+    //   //   this.selectedTagList.push(tag)
+    //   // }
+    // },
+    // getData() {
+    //   // this.articleData.articleTags = []
+    //   // for (const dictId of this.selectedTagList) {
+    //   //   let isFound = false
+    //   //   for (const tag of this.tagList) {
+    //   //     if (dictId === tag.dictId) {
+    //   //       isFound = true
+    //   //       this.articleData.articleTags.push({ dictId: dictId })
+    //   //       break
+    //   //     }
+    //   //   }
+    //   //   if (!isFound) {
+    //   //     this.articleData.articleTags.push({ dictValue: dictId })
+    //   //   }
+    //   // }
+    //   // return this.articleData
+    // },
     selectAttachment() {
       this.$emit('attachmentSelected')
     },
     // 获取已经用的博客分类
-    async findAllCategoryList() {
-      const res = await findAllCategoryListApi()
-      this.usedCategoryList = res.data
+    async findAllArticleCategoryList() {
+      const res = await findAllArticleCategoryListApi()
+      // console.log(res)
+      if (res && res.code === 200) {
+        this.articleCategoryList = res.data
+      }
+      console.log('父组件传来的')
+      console.log(this.articleData)
     },
     // 获取所有博客标签
     async findAllTagsList() {
       const res = await findAllTagsListApi()
-      this.tagList = res.data
+      // console.log('博客标签' + res.data)
+      if (res && res.code === 200) {
+        this.tagList = res.data
+        // console.log(this.articleData)
+      }
     }
   }
 }

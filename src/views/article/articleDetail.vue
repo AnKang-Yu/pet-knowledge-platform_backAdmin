@@ -39,20 +39,21 @@
       destroy-on-close
       direction="rtl"
       title="文章设置"
+
       :class="['inner-drawer',selectAttachmentDrawer?'inner-drawer-open':'inner-drawer-close']"
       :before-close="closePublishDrawer"
     >
       <!-- @attachmentSelected="selectAttachmentDrawer = true" -->
-      <article-setting ref="publishDrawer" />
+      <article-setting ref="publishDrawer" :article-data.sync="articleData" />
       <div class="footer-toolbar" style="width: 30%">
-        <el-button type="primary" size="medium" @click="addArticle">发 表</el-button>
+        <el-button type="primary" size="medium" @click="addOrEditArticle">发 表</el-button>
       </div>
     </el-drawer>
   </div>
 </template>
 
 <script>
-import { findArticleByIdApi, addArticleApi } from '@/api/article'
+import { findArticleByIdApi, addArticleApi, editArticleApi } from '@/api/article'
 // import { uploadAttachment } from '@/api/attachment'
 import ArticleSetting from '@/components/system/ArticleSetting'
 
@@ -67,15 +68,16 @@ export default {
       ifOpenDrawer: false,
       selectAttachmentDrawer: false,
       articleData: {
+        articleId: '',
         articleFormatContent: '',
         articleTitle: '',
-        url: '',
+        // url: '',
         articleSummary: '',
         articleOriginalContent: '',
         articleThumbnail: '',
-        category: { id: null, name: '' },
-        tags: [],
-        allowComment: 'ALLOWED_AUDITING'
+        articleCategoryid: '',
+        articleTags: [],
+        articleAllowComment: ''
       }
     }
   },
@@ -97,13 +99,15 @@ export default {
     openPublishDrawer() {
       // 把抽屉打开
       this.ifOpenDrawer = true
-      setTimeout(() => {
-        this.$refs.publishDrawer.setData(this.articleData)
-      }, 200)
+      // console.log('抽屉打开')
+      // console.log(this.articleData)
+      // setTimeout(() => {
+      //   this.$refs.publishDrawer.setData(this.articleData)
+      // }, 200)
     },
     closePublishDrawer(done) {
       // 关闭抽屉的时候保存一下
-      this.articleData = this.$refs.publishDrawer.getData()
+      // this.articleData = this.$refs.publishDrawer.getData()
       done()
     },
     editorFullscreen(status, value) {
@@ -155,23 +159,57 @@ export default {
     },
     // 获取博客
     async findArticleById() {
-      const blogId = this.$route.query.blogId
-      if (blogId) {
-        const res = await findArticleByIdApi(this.params)
+      const param = {
+        articleId: this.$route.query.articleId
+      }
+      console.log(param.articleId)
+      if (param.articleId) {
+        const res = await findArticleByIdApi(param)
         // 返回成功
         if (res.code === 200) {
-          console.log(res)
-          this.articleData.id = blogId
-          this.articleData = res.data
+          // console.log(res)
+          // this.articleData.articleId = articleId
+          this.articleData = res.data.articleData
+          this.articleData.articleTags = res.data.articleTags
+          console.log(this.articleData)
 
         // console.log(res.data.records);
         }
       }
     },
+    addOrEditArticle() {
+      const id = this.articleData.articleId
+      if (id === null || id === '') {
+        // 添加文字
+        this.addArticle()
+      } else {
+        // 编辑文字
+        this.editArticle()
+      }
+    },
     // 发表文章
     async addArticle() {
-      const articleData = this.$refs.publishDrawer.getData()
-      const res = await addArticleApi(articleData)
+      // const articleData = this.$refs.publishDrawer.getData()
+      console.log('发表文章')
+      console.log(this.articleData)
+      const params = {
+        articleData: this.articleData
+        // articleAuthorid:
+      }
+      const res = await addArticleApi(params)
+      if (res && res.code === 200) {
+        // 请求成功 刷新列表
+        console.log(res)
+        // this.findUserList()
+        this.$message.success(res.msg)
+      }
+    },
+    // 编辑文章
+    async editArticle() {
+      // const articleData = this.$refs.publishDrawer.getData()
+      console.log('编辑文章')
+      console.log(this.articleData)
+      const res = await editArticleApi(this.articleData)
       if (res && res.code === 200) {
         // 请求成功 刷新列表
         console.log(res)

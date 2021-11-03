@@ -38,6 +38,7 @@
       <el-table-column label="操作" align="center" width="180px">
         <template slot-scope="scope">
           <el-button-group>
+            <!-- createArticle.vue的name 就是 ArticleModel -->
             <router-link
               class="el-button el-button--primary el-button--mini"
               :to="{name:'ArticleModel', query:{articleId:scope.row.articleId}}"

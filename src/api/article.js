@@ -6,12 +6,12 @@ export async function findArticleListApi(params) {
 }
 // 根据文章Id查询文章
 export async function findArticleByIdApi(params) {
-  return await http.get('/article/findArticleById', params)
+  return await http.getRestApi('/article/findArticleById', params)
 }
 
 // 获取文章所有分类列表
-export async function findAllCategoryListApi(params) {
-  return await http.get('/article/findAllCategoryList', params)
+export async function findAllArticleCategoryListApi(params) {
+  return await http.get('/article/findAllArticleCategoryList', params)
 }
 // 获取文章所有标签列表
 export async function findAllTagsListApi(params) {

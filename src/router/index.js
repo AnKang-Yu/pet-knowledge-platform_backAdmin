@@ -56,23 +56,23 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/acticle',
+    path: '/article',
     component: Layout,
     // 总是显示可以下拉，防单个子列表他不显示
     alwaysShow: true,
-    name: 'acticle',
+    name: 'article',
     meta: { title: '文章管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: '/createActicle',
+        path: '/createArticle',
         name: 'ArticleModel',
-        component: () => import('@/views/acticle/createActicle'),
-        meta: { title: '新建文章', icon: 'table' }
+        component: () => import('@/views/article/createArticle'),
+        meta: { title: '文章页', icon: 'table' }
       },
       {
-        path: '/acticleList',
-        name: 'acticleList',
-        component: () => import('@/views/acticle/acticleList'),
+        path: '/articleList',
+        name: 'articleList',
+        component: () => import('@/views/article/articleList'),
         meta: { title: '文章列表', icon: 'table' }
       }
       // {
