@@ -54,8 +54,10 @@ const actions = {
       let accessedRoutes
       // 路由是否有admin,有直接全部显示
       if (roles.includes(20)) {
+        console.log('进入src/store/modules/permission.js的if')
         accessedRoutes = asyncRoutes || []
       } else {
+        console.log('进入src/store/modules/permission.js的else')
         // 过滤路由
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
         // accessedRoutes这个就是当前角色可见的动态路由

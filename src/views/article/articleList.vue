@@ -5,10 +5,14 @@
              ref 表单id
          -->
     <!-- 文章列表elt -->
-    <el-table :data="ActicleTable" :height="tableHeight" empty-text="无数据" border stripe>
+    <el-table :data="ArticleTable" :height="tableHeight" empty-text="无数据" border stripe>
       <el-table-column prop="articleId" label="文章ID" width="70px" align="center" />
       <!-- <el-table-column prop="articleCreated" label="文章创建时间" min-width="100px" align="center" /> -->
-      <el-table-column prop="articleModified" label="文章更新时间" align="center" min-width="150px" />
+      <el-table-column prop="articleModified" label="文章更新时间" align="center" min-width="150px">
+        <template slot-scope="scope">
+          {{ getFormatDate(scope.row.articleModified) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="articleAuthorName" label="文章作者" align="center" />
       <el-table-column prop="articleTitle" label="文章标题" align="center" />
       <el-table-column prop="articleCategoryName" label="文章分类" align="center" />
@@ -81,8 +85,8 @@
 <script>
 // 自定义MarkDown编辑
 import { findArticleListApi, editArticleApi, deleteArticleApi } from '@/api/article'
-
-import { randomTagType } from '@/utils'
+// import { fmtDate } from '@utils/Date.js'
+import { toDate, randomTagType } from '@/utils'
 export default {
   name: '',
   // components: {
@@ -100,7 +104,7 @@ export default {
       // 表格高度
       tableHeight: 0,
       // 在线文章列表数据
-      ActicleTable: []
+      ArticleTable: []
     }
   },
   created() {
@@ -118,20 +122,23 @@ export default {
       const res = await findArticleListApi(this.params)
       // 返回成功
       if (res.code === 200) {
-        console.log(res)
-        console.log(res.data.records.length)
-        this.ActicleTable = res.data.records
+        this.ArticleTable = res.data.records
         this.params.totalNum = res.data.total
         // console.log(res.data.records);
       }
     },
+
     // 获取随机标签样式
     getRandomTagType() {
       return randomTagType()
     },
+    // 获取格式化后的日期
+    getFormatDate(date) {
+      return toDate(date)
+    },
     // 更改文章评论状态事件
     async changeArticleAllowCommentStatus(row) {
-      console.log(row)
+      // console.log(row)
       const param = {
         articleId: row.articleId,
         articleAllowComment: row.articleAllowComment
@@ -146,7 +153,7 @@ export default {
     // 删除文章,更改文章的状态, 不是回收站状态的移入回收站，是回收站的就彻底删除
     async deleteArticle(row) {
       // console.log('11223')
-      console.log(row)
+      // console.log(row)
       const param = {
         articleId: row.articleId
         // articleStatusId: row.articleStatusId
@@ -160,15 +167,15 @@ export default {
     },
     // 页面容量改变
     sizeChange(val) {
-      console.log('页面容量val: ' + val)
-      console.log('页面容量:' + this.params.pageSize)
+      // console.log('页面容量val: ' + val)
+      // console.log('页面容量:' + this.params.pageSize)
       // 改变页码，重新渲染页面
       this.findArticleList()
     },
     // 页数改变时触发
     currentChange(val) {
-      console.log('当前页面：' + val)
-      console.log(`当前页:` + this.params.currentPage)
+      // console.log('当前页面：' + val)
+      // console.log(`当前页:` + this.params.currentPage)
       this.params.currentPage = val
       // 改变页码，重新渲染页面
       this.findArticleList()

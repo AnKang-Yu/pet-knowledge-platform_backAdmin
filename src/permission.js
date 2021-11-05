@@ -29,7 +29,7 @@ router.beforeEach(async(to, from, next) => {
       // const hasGetUserInfo = store.getters.name
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0// 这里指的是src/store/getters.js的roles
-      console.log(hasRoles)
+      // console.log(hasRoles)
       // 判断是否已经有roles了
 
       if (hasRoles) {
@@ -45,6 +45,7 @@ router.beforeEach(async(to, from, next) => {
           router.options.routes = store.getters.permission_routes// 第三步
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
+          console.log('src/permission.js的store')
           console.log(store)
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record

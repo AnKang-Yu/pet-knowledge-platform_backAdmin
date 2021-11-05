@@ -205,7 +205,7 @@ export default {
       //   }
 
       const res = await findAllDictByParentIdApi()
-      console.log(res)
+      // console.log(res)
       // 返回成功
       if (res.code === 200) {
         // console.log(res);
@@ -219,28 +219,28 @@ export default {
       var site = val.lastIndexOf(',')
       // 截取最后一个/后的值
       var result = val.substring(site + 1, val.length)
-      console.log('下拉菜单  ' + result)
+      // console.log('下拉菜单  ' + result)
       this.params.dictParentId = result
       this.findDictList()
     },
     // 操作的级联选择器
     dialogOperationChange(val) {
       // console.log("val"+val)
-      console.log('操作的级联选择器' + val)
+      // console.log('操作的级联选择器' + val)
 
-      console.log('进去了')
+      // console.log('进去了')
       val = val.toString()
       // 获取最后一个/的位置
       var site = val.lastIndexOf(',')
       // 截取最后一个/后的值
       var result = val.substring(site + 1, val.length)
-      console.log('dictParentId = ' + result)
+      // console.log('dictParentId = ' + result)
       this.DictModel.dictParentId = result
-      console.log('dictParentId = ' + this.DictModel.dictParentId)
+      // console.log('dictParentId = ' + this.DictModel.dictParentId)
       // console.log("修改前的dictParentValue = " +  this.DictModel.dictParentValue)
       // console.log(this.$refs['cascaderDict'].getCheckedNodes()[0].label)
       if (val != null && val) {
-        console.log('val=' + val)
+        // console.log('val=' + val)
         this.DictModel.dictParentValue = this.$refs['cascaderDict'].getCheckedNodes()[0].label
       }
 
@@ -248,7 +248,7 @@ export default {
     },
     // 更改字典状态事件
     async changeDictStatus(row) {
-      console.log(row)
+      // console.log(row)
       const param = {
         dictId: row.dictId,
         dictStatus: row.dictStatus
@@ -263,11 +263,11 @@ export default {
     // 获取字典列表
     async findDictList() {
       const res = await findDictListApi(this.params)
-      console.log(res)
+      // console.log(res)
       // 返回成功
       if (res.code === 200) {
-        console.log(res)
-        console.log(res.data.records.length)
+        // console.log(res)
+        // console.log(res.data.records.length)
         this.tableList = res.data.records
         this.params.totalNum = res.data.total
         // console.log(res.data.records);
@@ -313,7 +313,7 @@ export default {
     // 删除字典
     async deleteDict(row) {
       const confirm = await this.$myconfirm('确定删除该字典吗？')
-      console.log(confirm)
+      // console.log(confirm)
       if (confirm) {
         const res = await deleteDictApi({ dictId: row.dictId })
         if (res && res.code === 200) {
@@ -329,7 +329,7 @@ export default {
         if (valid) {
           // 验证通过
           let res = null
-          console.log(this.DictModel.dictParentId)
+          // console.log(this.DictModel.dictParentId)
           if (this.DictModel.apiType === '1') {
             // 新增
             res = await addDictApi(this.DictModel)
@@ -339,8 +339,8 @@ export default {
           }
           if (res && res.code === 200) {
             // 请求成功 刷新列表
-            console.log(res)
-            console.log('刷新')
+            // console.log(res)
+            // console.log('刷新')
             // 新增或编辑字典后在查询会导致一些奇怪的错误，原因是因为之前查询的时候当前页面还是保持着
             // 原先的页面数，导致在后端查询显示无数据
             this.params.currentPage = 1
@@ -369,15 +369,15 @@ export default {
     },
     // 页面容量改变
     sizeChange(val) {
-      console.log('页面容量val: ' + val)
-      console.log('页面容量:' + this.params.pageSize)
+      // console.log('页面容量val: ' + val)
+      // console.log('页面容量:' + this.params.pageSize)
       // 改变页码，重新渲染页面
       this.findDictList()
     },
     // 页数改变时触发
     currentChange(val) {
-      console.log('当前页面：' + val)
-      console.log(`当前页:` + this.params.currentPage)
+      // console.log('当前页面：' + val)
+      // console.log(`当前页:` + this.params.currentPage)
       this.params.currentPage = val
       // 改变页码，重新渲染页面
       this.findDictList()

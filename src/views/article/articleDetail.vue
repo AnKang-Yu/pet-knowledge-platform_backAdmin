@@ -159,6 +159,9 @@ export default {
     },
     // 获取博客
     async findArticleById() {
+      // console.log('尝试获取信息')
+      // console.log(this.$store.userId)
+      // console.log(this.$store.getters.userId)
       const param = {
         articleId: this.$route.query.articleId
       }
@@ -171,7 +174,7 @@ export default {
           // this.articleData.articleId = articleId
           this.articleData = res.data.articleData
           this.articleData.articleTags = res.data.articleTags
-          console.log(this.articleData)
+          // console.log(this.articleData)
 
         // console.log(res.data.records);
         }
@@ -180,10 +183,10 @@ export default {
     addOrEditArticle() {
       const id = this.articleData.articleId
       if (id === null || id === '') {
-        // 添加文字
+        // 添加文章
         this.addArticle()
       } else {
-        // 编辑文字
+        // 编辑文章
         this.editArticle()
       }
     },
@@ -191,12 +194,17 @@ export default {
     async addArticle() {
       // const articleData = this.$refs.publishDrawer.getData()
       console.log('发表文章')
+      // 添加文章的时候把当前用户的信息也加进去
+      this.articleData.articleAuthorid = this.$store.getters.userId
+      this.articleData.articleAuthorname = this.$store.getters.name
       console.log(this.articleData)
-      const params = {
-        articleData: this.articleData
-        // articleAuthorid:
-      }
-      const res = await addArticleApi(params)
+      // const params = {
+      //   articleData: this.articleData,
+      //   articleTags: this.articleData.articleTags
+      // }
+      // articleAuthorid:
+
+      const res = await addArticleApi(this.articleData)
       if (res && res.code === 200) {
         // 请求成功 刷新列表
         console.log(res)
@@ -223,6 +231,7 @@ export default {
       const res = await addArticleApi(this.articleData)
       if (res && res.code === 200) {
         // 请求成功 刷新列表
+        console.log('保存草稿')
         console.log(res)
         // this.findUserList()
         this.$message.success(res.msg)

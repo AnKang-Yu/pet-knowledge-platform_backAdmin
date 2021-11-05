@@ -231,7 +231,7 @@ export default {
   methods: {
     // 更改管理员状态事件
     async changeUserStatus(row) {
-      console.log(row)
+      // console.log(row)
       const param = {
         userId: row.userId,
         userStatus: row.userStatus
@@ -248,8 +248,8 @@ export default {
       const res = await findUserListApi(this.params)
       // 返回成功
       if (res.code === 200) {
-        console.log(res)
-        console.log(res.data.records.length)
+        // console.log(res)
+        // console.log(res.data.records.length)
         this.tableList = res.data.records
         this.params.totalNum = res.data.total
         // console.log(res.data.records);
@@ -275,12 +275,12 @@ export default {
       // 回显数据
       this.$objCoppy(row, this.AdminModel)
       this.dialog.visible = true
-      console.log(row)
+      // console.log(row)
     },
     // 删除管理员
     async deleteUser(row) {
       const confirm = await this.$myconfirm('确定删除该用户吗？')
-      console.log(confirm)
+      // console.log(confirm)
       if (confirm) {
         const res = await deleteUserApi({ userId: row.userId })
         if (res && res.code === 200) {
@@ -305,7 +305,7 @@ export default {
           }
           if (res && res.code === 200) {
             // 请求成功 刷新列表
-            console.log(res)
+            // console.log(res)
             this.findUserList()
             this.$message.success(res.msg)
           }
@@ -319,15 +319,15 @@ export default {
     },
     // 页面容量改变
     sizeChange(val) {
-      console.log('页面容量val: ' + val)
-      console.log('页面容量:' + this.params.pageSize)
+      // console.log('页面容量val: ' + val)
+      // console.log('页面容量:' + this.params.pageSize)
       // 改变页码，重新渲染页面
       this.findUserList()
     },
     // 页数改变时触发
     currentChange(val) {
-      console.log('当前页面：' + val)
-      console.log(`当前页:` + this.params.currentPage)
+      // console.log('当前页面：' + val)
+      // console.log(`当前页:` + this.params.currentPage)
       this.params.currentPage = val
       // 改变页码，重新渲染页面
       this.findUserList()
