@@ -11,6 +11,8 @@
          imgAdd: 图片文件添加回调事件(filename: 写在md中的文件名, File: File Object) @imgAdd="addImage"
          fullScreen: 切换全屏编辑的回调事件(boolean: 全屏开启状态)
          helpToggle: 查看帮助的回调事件(boolean: 帮助开启状态)
+         @fullScreen="editorFullscreen"
+      @helpToggle="editorNotehelpToggle"
     -->
     <mavon-editor
       ref="editor"
@@ -19,9 +21,6 @@
       :ishljs="true"
       @change="editing"
       @save="saveDraftMsgBox"
-
-      @fullScreen="editorFullscreen"
-      @helpToggle="editorNotehelpToggle"
     />
     <div class="operation footer-toolbar">
       <el-button type="info" size="medium" @click="saveDraftMsgBox">保存草稿</el-button>
@@ -77,7 +76,8 @@ export default {
         articleThumbnail: '',
         articleCategoryid: '',
         articleTags: [],
-        articleAllowComment: ''
+        articleAllowComment: '',
+        file: ''
       }
     }
   },
@@ -115,14 +115,6 @@ export default {
       if (e) {
         e.style['z-index'] = status ? 9999 : 1500
       }
-    },
-    editorNotehelpToggle(status, value) {
-      setTimeout(function() {
-        const e = document.querySelector('.v-note-help-wrapper')
-        if (e) {
-          e.style['z-index'] = status ? 9999 : 1600
-        }
-      }, 36)
     },
     // editor中的上传图片功能
     // addImage(pos, $file) {
@@ -175,8 +167,7 @@ export default {
           this.articleData = res.data.articleData
           this.articleData.articleTags = res.data.articleTags
           // console.log(this.articleData)
-
-        // console.log(res.data.records);
+          // console.log(res.data.records);
         }
       }
     },
@@ -198,13 +189,22 @@ export default {
       this.articleData.articleAuthorid = this.$store.getters.userId
       this.articleData.articleAuthorname = this.$store.getters.name
       console.log(this.articleData)
+      this.$refs.publishDrawer.$refs.uploadArticleThumbnail.submit()
+      // 携带文件必须使用此对象
+      var form = new FormData()
+      if (this.articleData.file) {
+        // 把文件实体添加到表单对象
+        form.append('file', this.articleData.file)
+      }
+      // new Blob([JSON.stringify({a: 1, b: 2})], {type: 'application/json'})
+      form.append('articleData', new Blob([JSON.stringify(this.articleData)], { type: 'application/json' }))
       // const params = {
       //   articleData: this.articleData,
       //   articleTags: this.articleData.articleTags
       // }
       // articleAuthorid:
 
-      const res = await addArticleApi(this.articleData)
+      const res = await addArticleApi(form)
       if (res && res.code === 200) {
         // 请求成功 刷新列表
         console.log(res)
@@ -217,7 +217,17 @@ export default {
       // const articleData = this.$refs.publishDrawer.getData()
       console.log('编辑文章')
       console.log(this.articleData)
-      const res = await editArticleApi(this.articleData)
+
+      this.$refs.publishDrawer.$refs.uploadArticleThumbnail.submit()
+      // 携带文件必须使用此对象
+      var form = new FormData()
+      if (this.articleData.file) {
+        // 把文件实体添加到表单对象
+        form.append('file', this.articleData.file)
+      }
+      // new Blob([JSON.stringify({a: 1, b: 2})], {type: 'application/json'})
+      form.append('articleData', new Blob([JSON.stringify(this.articleData)], { type: 'application/json' }))
+      const res = await editArticleApi(form)
       if (res && res.code === 200) {
         // 请求成功 刷新列表
         console.log(res)

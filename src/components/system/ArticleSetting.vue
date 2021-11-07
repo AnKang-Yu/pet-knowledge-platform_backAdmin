@@ -58,18 +58,23 @@
       <el-form-item label="文章摘要：" prop="articleSummary">
         <el-input v-model="articleData.articleSummary" :rows="3" type="textarea" placeholder="选填项目" />
       </el-form-item>
-      <el-form-item label="博客封面：" prop="articleThumbnail">
-        <div @click="selectAttachment">
-          <el-tooltip effect="dark" placement="top" content="点击选择封面图片">
-            <v-image :src="articleData.articleThumbnail" class="thumbnail">
-              <div slot="error" class="placeholder">
-                <svg-icon icon-class="img-placeholder" class-name="icon" />
-                <div class="text">No articleThumbnail</div>
-              </div>
-            </v-image>
-          </el-tooltip>
-        </div>
-        <el-input v-model="articleData.articleThumbnail" clearable placeholder="请输入图片链接或选择图片" />
+      <el-form-item label="博客封面：" prop="file">
+        <!-- class="avatar-uploader"
+          :before-upload="beforeAvatarUpload"
+          :on-change="changeUpload"
+        -->
+        <el-upload
+          ref="uploadArticleThumbnail"
+          action=""
+          :data="articleData"
+          :show-file-list="true"
+          :http-request="uploadImg"
+          :auto-upload="false"
+          :limit="1"
+        >
+          <img v-if="articleData.file" :src="articleData.file">
+          <i v-else class="el-icon-plus avatar-uploader-icon" />
+        </el-upload>
       </el-form-item>
     </el-form>
   </div>
@@ -79,12 +84,12 @@
 // import { listAllCategory } from '@/api/category'
 // import { listAllTags } from '@/api/tag'
 
-import { findAllArticleCategoryListApi, findAllTagsListApi } from '@/api/article'
+import { findAllArticleCategoryListApi, findAllTagsListApi, findImageApi } from '@/api/article'
 
 export default {
   name: 'SettingDrawer',
   components: {
-    'v-image': () => import('@/components/system/SimpleImage')
+    // 'v-image': () => import('@/components/system/SimpleImage')
   },
   // eslint-disable-next-line vue/require-prop-types
   props: {
@@ -131,43 +136,33 @@ export default {
   created() {
     this.findAllArticleCategoryList()
     this.findAllTagsList()
+    this.findImage()
   },
   methods: {
-    // setData(data) {
-    //   // JSON.parse(JSON.stringify(data))
-    //   this.articleData = data
-    //   console.log('setData')
-    //   console.log(this.articleData.articleTags)
-    //   this.selectedTagList = this.articleData.articleTags
-    //   console.log(this.selectedTagList)
-    //   // if (!this.articleData.category) {
-    //   //   this.articleData.category = { id: null, name: '' }
-    //   // }
-    //   // this.selectedTagList = []
-    //   // for (const tag of this.articleData.articleTags) {
-    //   //   this.selectedTagList.push(tag)
-    //   // }
-    // },
-    // getData() {
-    //   // this.articleData.articleTags = []
-    //   // for (const dictId of this.selectedTagList) {
-    //   //   let isFound = false
-    //   //   for (const tag of this.tagList) {
-    //   //     if (dictId === tag.dictId) {
-    //   //       isFound = true
-    //   //       this.articleData.articleTags.push({ dictId: dictId })
-    //   //       break
-    //   //     }
-    //   //   }
-    //   //   if (!isFound) {
-    //   //     this.articleData.articleTags.push({ dictValue: dictId })
-    //   //   }
-    //   // }
-    //   // return this.articleData
-    // },
-    selectAttachment() {
-      this.$emit('attachmentSelected')
+    async findImage() {
+      const param = {
+        articleThumbnail: this.articleData.articleThumbnail
+      }
+
+      const test = await findImageApi(param)
+      if (test.code === 200) {
+        console.log('找图片')
+        console.log(test)
+        this.articleData.file = 'data:image/jpg;base64,' + test.data
+        console.log(this.articleData.file)
+      }
+
+      // console.log('')
+      // const blob = new Blob([test.data])
+      // this.articleData.file = window.URL.createObjectURL(blob)
+      // const Base64 = require('js-base64').Base64
+      // this.articleData.file = Base64.decode(test.data)
     },
+    // 自定义上传方法，使用上传组件的submit()后才会触发以获取文件实体
+    uploadImg(param) {
+      this.articleData.file = param.file
+    },
+
     // 获取已经用的博客分类
     async findAllArticleCategoryList() {
       const res = await findAllArticleCategoryListApi()

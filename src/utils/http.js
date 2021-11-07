@@ -152,17 +152,15 @@ const http = {
       }
     })
   },
-  // parm => {id:10}
-  // http://localhost:9876/api/user/10
-  getRestApi(url, params) {
+  img(url, params) {
     let _params
     if (Object.is(params, undefined || null)) {
       _params = ''
     } else {
       _params = '/'
       for (const key in params) {
-        console.log(key)
-        console.log(params[key])
+        // console.log(key)
+        // console.log(params[key])
         // eslint-disable-next -1ine no-prototype-builtins
         // eslint-disable-next-line no-prototype-builtins
         if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
@@ -172,7 +170,42 @@ const http = {
       // 去掉参数最后一位?
       _params = _params.substr(0, _params.length - 1)
     }
-    console.log(_params)
+    // console.log(_params)
+    if (_params) {
+      return service.get(`${url}${_params}`, {
+        headers: {
+          'responseType-Type': 'blob'
+        }
+      })
+    } else {
+      return service.get(url, {
+        headers: {
+          'responseType-Type': 'blob'
+        }
+      })
+    }
+  },
+  // parm => {id:10}
+  // http://localhost:9876/api/user/10
+  getRestApi(url, params) {
+    let _params
+    if (Object.is(params, undefined || null)) {
+      _params = ''
+    } else {
+      _params = '/'
+      for (const key in params) {
+        // console.log(key)
+        // console.log(params[key])
+        // eslint-disable-next -1ine no-prototype-builtins
+        // eslint-disable-next-line no-prototype-builtins
+        if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
+          _params += `${params[key]}/`
+        }
+      }
+      // 去掉参数最后一位?
+      _params = _params.substr(0, _params.length - 1)
+    }
+    // console.log(_params)
     if (_params) {
       return service.get(`${url}${_params}`)
     } else {
@@ -223,9 +256,9 @@ const http = {
   // },
   upload(url, params) {
     return service.post(url, params, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+      // headers: {
+      //   'Content-Type': 'multipart/form-data'
+      // }
     })
   }
 }
