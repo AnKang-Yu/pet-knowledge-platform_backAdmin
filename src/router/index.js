@@ -67,7 +67,7 @@ export const constantRoutes = [
         path: '/createArticle',
         name: 'ArticleModel',
         component: () => import('@/views/article/createArticle'),
-        meta: { title: '文章页', icon: 'table' }
+        meta: { title: '文章创建', icon: 'table' }
       },
       {
         path: '/articleList',
@@ -81,6 +81,44 @@ export const constantRoutes = [
       //   component: () => import('@/views/acticle/offlineActicleList'),
       //   meta: { title: '下架文章', icon: 'table' }
       // }
+    ]
+  },
+  {
+    path: '/audit',
+    component: Layout,
+    // 总是显示可以下拉，防单个子列表他不显示
+    alwaysShow: true,
+    name: 'audit',
+    meta: { title: '审核管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: '/auditArticle',
+        name: 'auditArticle',
+        component: () => import('@/views/audit/auditArticle'),
+        meta: { title: '审核文章', icon: 'table' }
+      },
+      {
+        path: '/auditSuccour',
+        name: 'auditSuccour',
+        component: () => import('@/views/audit/auditSuccour'),
+        meta: { title: '审核救助', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/pet',
+    component: Layout,
+    // 总是显示可以下拉，防单个子列表他不显示
+    alwaysShow: true,
+    name: 'pet',
+    meta: { title: '宠物管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: '/petList',
+        name: 'petList',
+        component: () => import('@/views/pet/petList'),
+        meta: { title: '宠物列表', icon: 'table' }
+      }
     ]
   },
 

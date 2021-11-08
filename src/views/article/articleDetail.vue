@@ -23,7 +23,7 @@
       @save="saveDraftMsgBox"
     />
     <div class="operation footer-toolbar">
-      <el-button type="info" size="medium" @click="saveDraftMsgBox">保存草稿</el-button>
+      <el-button v-show="!articleData.articleId" type="info" size="medium" @click="saveDraftMsgBox">保存草稿</el-button>
       <el-button type="primary" size="medium" @click="openPublishDrawer">提 交</el-button>
     </div>
     <!-- 发表文章Drawer
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { findArticleByIdApi, addArticleApi, editArticleApi } from '@/api/article'
+import { findArticleByIdApi, addArticleApi, editArticleApi, saveDraftApi } from '@/api/article'
 // import { uploadAttachment } from '@/api/attachment'
 import ArticleSetting from '@/components/system/ArticleSetting'
 
@@ -77,11 +77,11 @@ export default {
         articleCategoryid: '',
         articleTags: [],
         articleAllowComment: '',
-        file: ''
+        file: null
       }
     }
   },
-  // 监听到路由发生改变时，执行函数
+  // 监听属性发生改变时，(new,old)
   watch: {
     // 对路由变化作出响应...
     $route(to, from) {
@@ -157,7 +157,7 @@ export default {
       const param = {
         articleId: this.$route.query.articleId
       }
-      console.log(param.articleId)
+      // console.log(param.articleId)
       if (param.articleId) {
         const res = await findArticleByIdApi(param)
         // 返回成功
@@ -171,6 +171,7 @@ export default {
         }
       }
     },
+    // 添加或编辑文章
     addOrEditArticle() {
       const id = this.articleData.articleId
       if (id === null || id === '') {
@@ -203,11 +204,10 @@ export default {
       //   articleTags: this.articleData.articleTags
       // }
       // articleAuthorid:
-
       const res = await addArticleApi(form)
       if (res && res.code === 200) {
         // 请求成功 刷新列表
-        console.log(res)
+        // console.log(res)
         // this.findUserList()
         this.$message.success(res.msg)
       }
@@ -217,7 +217,6 @@ export default {
       // const articleData = this.$refs.publishDrawer.getData()
       console.log('编辑文章')
       console.log(this.articleData)
-
       this.$refs.publishDrawer.$refs.uploadArticleThumbnail.submit()
       // 携带文件必须使用此对象
       var form = new FormData()
@@ -237,8 +236,12 @@ export default {
     },
     // 保存草稿
     async saveDraft() {
-      this.articleData.status = 'DRAFT'
-      const res = await addArticleApi(this.articleData)
+      // 新增草稿的时候把当前用户的信息也加进去
+      this.articleData.articleAuthorid = this.$store.getters.userId
+      this.articleData.articleAuthorname = this.$store.getters.name
+      this.articleData.articleStatus = '93'
+      console.log(this.articleData)
+      const res = await saveDraftApi(this.articleData)
       if (res && res.code === 200) {
         // 请求成功 刷新列表
         console.log('保存草稿')

@@ -50,7 +50,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 200, it is judged as an error.
-    // 自定义默认成功是200
+    // 自定义默认成功是200   新增的时候没弄图片也是OK的50000
     if (res.code !== 200) {
       Message({
         message: res.msg || '服务器出错！',
@@ -153,37 +153,12 @@ const http = {
     })
   },
   img(url, params) {
-    let _params
-    if (Object.is(params, undefined || null)) {
-      _params = ''
-    } else {
-      _params = '/'
-      for (const key in params) {
-        // console.log(key)
-        // console.log(params[key])
-        // eslint-disable-next -1ine no-prototype-builtins
-        // eslint-disable-next-line no-prototype-builtins
-        if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
-          _params += `${params[key]}/`
-        }
+    return service.get(url, {
+      params: params,
+      paramsSerializer: (params) => {
+        return qs.stringify(params)
       }
-      // 去掉参数最后一位?
-      _params = _params.substr(0, _params.length - 1)
-    }
-    // console.log(_params)
-    if (_params) {
-      return service.get(`${url}${_params}`, {
-        headers: {
-          'responseType-Type': 'blob'
-        }
-      })
-    } else {
-      return service.get(url, {
-        headers: {
-          'responseType-Type': 'blob'
-        }
-      })
-    }
+    })
   },
   // parm => {id:10}
   // http://localhost:9876/api/user/10

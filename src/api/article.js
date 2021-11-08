@@ -1,7 +1,7 @@
 import http from '@/utils/http'
 // 获取图片
 export async function findImageApi(params) {
-  return await http.get('/showImage', params)
+  return await http.img('/showImage', params)
 }
 // 获取文章列表
 export async function findArticleListApi(params) {
@@ -19,6 +19,10 @@ export async function findAllArticleCategoryListApi(params) {
 // 获取文章所有标签列表
 export async function findAllTagsListApi(params) {
   return await http.get('/article/findAllTagsList', params)
+}
+// 存草稿文章
+export async function saveDraftApi(params) {
+  return await http.post('/article/saveDraft', params)
 }
 
 // 新增文章

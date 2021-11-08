@@ -136,20 +136,23 @@ export default {
   created() {
     this.findAllArticleCategoryList()
     this.findAllTagsList()
-    this.findImage()
+    if (this.articleData.articleThumbnail !== null && this.articleData.articleThumbnail !== '') {
+      this.findImage()
+    }
   },
   methods: {
     async findImage() {
       const param = {
-        articleThumbnail: this.articleData.articleThumbnail
+        url: this.articleData.articleThumbnail
       }
-
-      const test = await findImageApi(param)
-      if (test.code === 200) {
+      const res = await findImageApi(param)
+      if (res.code === 200) {
         console.log('找图片')
-        console.log(test)
-        this.articleData.file = 'data:image/jpg;base64,' + test.data
+        console.log(res)
+        this.articleData.file = 'data:image/jpg;base64,' + res.data
         console.log(this.articleData.file)
+      } else {
+        console.log(res.msg)
       }
 
       // console.log('')
@@ -170,8 +173,8 @@ export default {
       if (res && res.code === 200) {
         this.articleCategoryList = res.data
       }
-      console.log('父组件传来的')
-      console.log(this.articleData)
+      // console.log('父组件传来的')
+      // console.log(this.articleData)
     },
     // 获取所有博客标签
     async findAllTagsList() {
