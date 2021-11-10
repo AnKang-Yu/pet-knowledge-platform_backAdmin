@@ -136,3 +136,14 @@ export function toDate(inputDate) {
 
   // return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
 }
+
+/**
+ * 当前时间-传入的时间戳转换成多少个月的格式
+ * @param {Number|String} inputDate Unix时间戳（毫秒）
+ * @returns {String}
+ */
+export function toMonths(inputDate) {
+  const currentDate = new Date()
+  const date = new Date(inputDate)
+  return (currentDate.getFullYear() - date.getFullYear()) * 12 + currentDate.getMonth() - date.getMonth() + '个月'
+}
