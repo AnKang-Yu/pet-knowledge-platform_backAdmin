@@ -129,9 +129,9 @@ export default {
     }
   },
   watch: {
-    articleData(newVal, we) {
-      console.log('xxx')
-    }
+    // articleData(newVal, we) {
+    //   console.log('xxx')
+    // }
   },
   created() {
     this.findAllArticleCategoryList()

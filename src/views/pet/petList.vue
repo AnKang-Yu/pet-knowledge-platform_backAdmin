@@ -18,7 +18,7 @@
     >
       <!-- :rules="rules" -->
       <div slot="content">
-        <!-- 新增员工弹窗 -->
+        <!-- 新增宠物弹窗 -->
         <el-form ref="petForm" :model="petModel" label-width="90px" :inline="true" size="small">
           <el-form-item style="width:46%" label="宠物名:" prop="petName">
             <el-input v-model="petModel.petName" />

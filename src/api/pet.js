@@ -8,6 +8,12 @@ export async function findPetListApi(params) {
 export async function findAllVarietyListApi(params) {
   return await http.get('/pet/findAllVarietyList', params)
 }
+
+// 根据宠物Id查询宠物
+export async function findPetByIdApi(params) {
+  return await http.getRestApi('/pet/findPetById', params)
+}
+
 // 查询宠物状态列表
 export async function findAllStatusListApi(params) {
   return await http.get('/pet/findAllStatusList', params)

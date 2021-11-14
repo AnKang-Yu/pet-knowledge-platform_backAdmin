@@ -67,7 +67,7 @@ export const constantRoutes = [
         path: '/createArticle',
         name: 'ArticleModel',
         component: () => import('@/views/article/createArticle'),
-        meta: { title: '文章创建', icon: 'table' }
+        meta: { title: '文章创建', icon: 'edit' }
       },
       {
         path: '/articleList',
@@ -89,18 +89,18 @@ export const constantRoutes = [
     // 总是显示可以下拉，防单个子列表他不显示
     alwaysShow: true,
     name: 'audit',
-    meta: { title: '审核管理', icon: 'el-icon-s-help' },
+    meta: { title: '审核管理', icon: 'eye-open' },
     children: [
       {
-        path: '/auditArticle',
-        name: 'auditArticle',
-        component: () => import('@/views/audit/auditArticle'),
+        path: '/auditArticleList',
+        name: 'auditArticleList',
+        component: () => import('@/views/audit/auditArticleList'),
         meta: { title: '审核文章', icon: 'table' }
       },
       {
-        path: '/auditSuccour',
-        name: 'auditSuccour',
-        component: () => import('@/views/audit/auditSuccour'),
+        path: '/auditSuccourList',
+        name: 'auditSuccourList',
+        component: () => import('@/views/audit/auditSuccourList'),
         meta: { title: '审核救助', icon: 'table' }
       }
     ]
@@ -164,13 +164,13 @@ export const asyncRoutes = [
         path: '/sysUserList',
         name: 'sysUserList',
         component: () => import('@/views/system/sysUserList'),
-        meta: { title: '用户', icon: 'table' }
+        meta: { title: '用户', icon: 'peoples' }
       },
       {
         path: '/adminList',
         name: 'adminList',
         component: () => import('@/views/system/adminList'),
-        meta: { title: '管理员', icon: 'tree', roles: [20] }
+        meta: { title: '管理员', icon: 'user', roles: [20] }
       }
     ]
   },
