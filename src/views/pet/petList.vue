@@ -33,7 +33,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item style="width:46%" label="性别:" prop="petVarietyId">
+          <el-form-item style="width:46%" label="性别:" prop="petSex">
             <el-radio-group v-model="petModel.petSex">
               <el-radio :label="66">雄</el-radio>
               <el-radio :label="67">雌</el-radio>
@@ -186,7 +186,7 @@ export default {
         checkStrictly: false,
         value: 'dictId',
         label: 'dictValue',
-        children: 'list'
+        children: 'children'
       },
       petStatusList: [],
       // 弹框组件

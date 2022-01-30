@@ -149,7 +149,7 @@ export default {
       }).catch(() => { // 取消
       })
     },
-    // 获取博客
+    // 获取文章
     async findArticleById() {
       // console.log('尝试获取信息')
       // console.log(this.$store.userId)

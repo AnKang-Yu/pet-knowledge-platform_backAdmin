@@ -146,7 +146,7 @@ export default {
       props: {
         value: 'dictId',
         label: 'dictValue',
-        children: 'list'
+        children: 'children'
       },
       // 弹框组件
       dialog: {

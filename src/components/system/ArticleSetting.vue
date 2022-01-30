@@ -18,12 +18,12 @@
         <p class="input-tips">* 值越大越靠前</p>
       </el-form-item> -->
       <el-form-item label="文章分类：" prop="articleCategoryid">
-        <el-select v-model="articleData.articleCategoryid" placeholder="请选择博客分类" filterable>
+        <el-select v-model="articleData.articleCategoryid" placeholder="请选择文章分类" filterable>
           <el-option
             v-for="category in articleCategoryList"
-            :key="category.dict_id"
-            :value="category.dict_id"
-            :label="category.dict_value"
+            :key="category.dictId"
+            :value="category.dictId"
+            :label="category.dictValue"
           />
         </el-select>
       </el-form-item>
@@ -110,7 +110,7 @@ export default {
         checkStrictly: true,
         value: 'dictId',
         label: 'dictValue',
-        children: 'list'
+        children: 'children'
       },
       // 抽屉
       drawer: false,
@@ -166,20 +166,21 @@ export default {
       this.articleData.file = param.file
     },
 
-    // 获取已经用的博客分类
+    // 获取已经用的文章分类
     async findAllArticleCategoryList() {
       const res = await findAllArticleCategoryListApi()
       // console.log(res)
       if (res && res.code === 200) {
         this.articleCategoryList = res.data
+        // console.log('文章分类')
+        // console.log(this.articleCategoryList)
       }
       // console.log('父组件传来的')
       // console.log(this.articleData)
     },
-    // 获取所有博客标签
+    // 获取所有文章标签
     async findAllTagsList() {
       const res = await findAllTagsListApi()
-      // console.log('博客标签' + res.data)
       if (res && res.code === 200) {
         this.tagList = res.data
         // console.log(this.articleData)
