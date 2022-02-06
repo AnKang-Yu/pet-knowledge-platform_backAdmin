@@ -25,6 +25,11 @@ export async function saveDraftApi(params) {
   return await http.post('/article/saveDraft', params)
 }
 
+// 编辑文章评论
+export async function changeArticleAllowCommentStatusApi(params) {
+  return await http.post('/article/changeArticleAllowCommentStatus', params)
+}
+
 // 新增文章
 export async function addArticleApi(params) {
   return await http.upload('/article/addArticle', params)

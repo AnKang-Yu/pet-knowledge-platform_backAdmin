@@ -69,7 +69,7 @@ const actions = {
         console.log(roles)
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', 'data:image/jpg;base64,' + avatar)
         commit('SET_USERID', userId)
         console.log('data = ')
         console.log(data)

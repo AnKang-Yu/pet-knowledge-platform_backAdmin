@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       title: 'DG的宠物饲养管理平台',
-      logo: ' '
+      logo: ''
     }
   }
 }

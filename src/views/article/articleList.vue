@@ -85,7 +85,7 @@
 
 <script>
 
-import { findArticleListApi, editArticleApi, deleteArticleApi } from '@/api/article'
+import { findArticleListApi, changeArticleAllowCommentStatusApi, deleteArticleApi } from '@/api/article'
 // import { fmtDate } from '@utils/Date.js'
 import { toDate, randomTagType } from '@/utils'
 export default {
@@ -144,7 +144,7 @@ export default {
         articleId: row.articleId,
         articleAllowComment: row.articleAllowComment
       }
-      const res = await editArticleApi(param)
+      const res = await changeArticleAllowCommentStatusApi(param)
       if (res && res.code === 200) {
         // 更改成功,刷新列表
         this.findArticleList()
