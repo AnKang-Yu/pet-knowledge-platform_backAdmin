@@ -21,7 +21,7 @@
       <el-table-column prop="articleTags" label="文章标签" align="center">
         <template slot-scope="scope">
           <div class="tag-group">
-            <el-tag v-for="tag in scope.row.articleTags" :key="tag.tagId" :type="getRandomTagType()" size="mini">
+            <el-tag v-for="(tag,index) in scope.row.articleTags" :key="index" :type="getRandomTagType()" size="mini">
               {{ tag.tagName }}
             </el-tag>
           </div>

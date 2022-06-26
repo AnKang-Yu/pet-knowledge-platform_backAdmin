@@ -52,7 +52,7 @@ const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
       let accessedRoutes
-      // 路由是否有admin,有直接全部显示
+      // 路由是否是 超级管理员,是则直接全部显示
       if (roles.includes(20)) {
         console.log('进入src/store/modules/permission.js的if')
         accessedRoutes = asyncRoutes || []

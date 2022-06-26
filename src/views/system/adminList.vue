@@ -6,7 +6,7 @@
          -->
     <el-form ref="searchAdmin" :model="params" label-width="80px" :inline="true" size="small">
       <el-form-item label="用户名">
-        <el-input v-model="params.userName" />
+        <el-input v-model="params.username" />
       </el-form-item>
       <el-form-item>
         <el-button icon="el-icon-search" @click="findUserList">查询</el-button>
@@ -25,8 +25,8 @@
       <div slot="content">
         <!-- 新增员工弹窗 -->
         <el-form ref="addAdminForm" :model="AdminModel" :rules="rules" label-width="90px" :inline="true" size="normal">
-          <el-form-item label="用户名:" prop="userName">
-            <el-input v-model="AdminModel.userName" />
+          <el-form-item label="用户名:" prop="username">
+            <el-input v-model="AdminModel.username" />
           </el-form-item>
           <el-form-item label="用户账户:" prop="userAccount">
             <el-input v-model="AdminModel.userAccount" />
@@ -72,7 +72,7 @@
     <!-- 管理员列表elt -->
     <el-table :data="tableList" :height="tableHeight" empty-text="无数据" border stripe>
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="username" label="用户名" />
       <el-table-column prop="userAccount" label="账户名" />
       <el-table-column prop="userSex" label="用户性别" align="center">
         <template slot-scope="scope">
@@ -169,7 +169,7 @@ export default {
         userId: '',
         // 判断是添加1还是编辑0
         apiType: '',
-        userName: '',
+        username: '',
         // 66 男  67女
         userSex: '',
         userAccount: '',
@@ -183,7 +183,7 @@ export default {
       },
       // 表单验证规则
       rules: {
-        userName: [{
+        username: [{
           required: true, message: '请输入用户名', trigger: 'blur'
         }],
         userSex: [{
@@ -209,7 +209,7 @@ export default {
       tableHeight: 0,
       params: {
         // 搜索框表单数据
-        userName: '',
+        username: '',
         currentPage: 1,
         pageSize: 10,
         totalNum: 0,
